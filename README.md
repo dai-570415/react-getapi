@@ -23,5 +23,5 @@ const URL = `https://newsapi.org/v2/top-headlines?country=jp&apiKey=YourKey`;
 ```js
 // components/Gourmet/Index.js
 // ぐるなび API(https://api.gnavi.co.jp/api/)
-const URL = `https://newsapi.org/v2/top-headlines?country=jp&apiKey=YourKey`;
+const keyId = 'YourKey';
 ```
