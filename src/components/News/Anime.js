@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import media from 'styled-media-query';
+import Drawer from '../elements/Drawer';
 
-// NEWS API(https://newsapi.org/) 
-const URL = `https://newsapi.org/v2/top-headlines?country=jp&apiKey=YourKey`;
+// GAS API
+const URL = 'YourURL'; // GAS URL
 
-const NewsIndex = () => {
+const GasApi = () => {
   // head情報
-  const title = '【最新ニュース】JAPAN NEWS 24 | NEWS';
-  const description = '日本のニュースをリアルタイムにお届け！！';
+  const title = '【アニメ最新ニュース】ANIME NEWS 24 | ANI NEWS';
+  const description = 'アニメ情報をリアルタイムにお届け！！';
 
   document.title = title;
   const headData = document.head.children;
@@ -38,20 +40,23 @@ const NewsIndex = () => {
   const fetchArticles = async () => {
     try {
       const res = await axios.get(URL);
-      setArticles(res.data.articles); // NEWS API
+      setArticles(res.data);
     } catch (error) {
       console.error(error);
     }
   }
  
   return (
+    <>
+    <Drawer />
+    <NewsTitle>ANIME NEWS <Red>24</Red></NewsTitle>
     <News>
       {articles.map((item) => (
         <Item key={item.url}>
           <Author>
             <div>
               {item.author ? (
-                <div style={{fontSize: '14px',fontWeight: 700}}>{item.author.substr(0,20)}</div>
+                <div style={{fontSize: '14px',fontWeight: 700}}>{item.author.substr(0,18)}</div>
               ) : (
                 <div style={{fontSize: '14px',fontWeight: 700,color: '#ccc'}}>null</div>
               )}
@@ -67,10 +72,20 @@ const NewsIndex = () => {
         </Item>
       ))}  
     </News>
+    </>
   );
 }
 
 // styled-components
+const NewsTitle = styled.h1`
+  display: block;
+  font-family: Julius Sans One, sans-serif;
+  text-align: center;
+  margin: 0 auto 50px;
+`;
+const Red = styled.span`
+  color: #dc143c;
+`;
 const News = styled.div`
   display: flex;
   justify-content: center;
@@ -84,6 +99,9 @@ const Item = styled.div`
   padding: 15px;
   border: 1px solid #ccc;
   background: #fff;
+  ${media.lessThan("medium")`
+    width: 85%;
+  `}
 `;
 const Author = styled.div`
   display: flex;
@@ -111,4 +129,5 @@ const Image = styled.img`
   margin: 0 0 10px 0;
   background: #eee;
 `;
-export default NewsIndex;
+
+export default GasApi;

@@ -9,6 +9,7 @@
   box-sizing: border-box;
 }
 body {
+  margin: 50px auto;
   background: #eee;
 }
 a {
@@ -18,29 +19,12 @@ a {
 ul {
   list-style: none;
 }
-header {
-  font-family: 'Julius Sans One', sans-serif;
-  width: 200px;
-  padding: 30px;
-  border-right: 1px solid #d3d3d3;
-  background: #fff;
-  top: 0;
-  bottom: 0;
-  position: fixed;
-  z-index: 1;
-}
-header h1 {
-  margin: 0 0 50px 0;
-}
-header a {
-  color: #696969;
-  margin: 0 0 20px 0;
-}
 main {
   padding: 30px 0 0 200px;
 }
-footer {
-  font-size: 10px;
-  bottom: 30px;
-  position: fixed;
+
+@media screen and (max-width: 768px) {
+  main {
+    padding: 30px 0 0 0;
+  }
 }

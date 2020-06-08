@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import media from 'styled-media-query';
 import noImage from '../../assets/img/noimage.png'
+import Drawer from '../elements/Drawer';
 
 const keyId = 'YourKey'; // ぐるなびAPI KEY
 let pref = 'PREF28'; // 28は兵庫県
@@ -9,7 +11,7 @@ let hitPerPage = 99; // 件数（Max100）
 let lunch = 1; // 0 or 1
 let takeout = 1; // 0 or 1
 let bento = 0; // 0 or 1
-let deliverly = 1; // 0 or 1
+let deliverly = 0; // 0 or 1
 
 // 検索クエリ
 let URL = `https://api.gnavi.co.jp/RestSearchAPI/v3/?
@@ -21,9 +23,9 @@ takeout=${takeout}&
 bento=${bento}&
 deliverly=${deliverly}`;
 
-const GourmetIndex = () => {
+const HyogoTake = () => {
   // head情報
-  const title = '【テイクアウト】TAKE OUT Information | ぐるてく';
+  const title = '【兵庫テイクアウト情報】TAKE OUT INFORMATION | ぐるテク';
   const description = '最新のテイクアウトできるお店をリアルタイムにお届け！！';
 
   document.title = title;
@@ -59,9 +61,11 @@ const GourmetIndex = () => {
       console.error(error);
     }
   }
-
+  
   return (
     <>
+      <Drawer />
+      <GourNavisTitle>Take Out <Red>in Hyogo</Red></GourNavisTitle>
       <GourNavis>
         {articles.map((item) => (
             <Item key={item.id}>
@@ -75,9 +79,17 @@ const GourmetIndex = () => {
                 </a>
               )}
               <ItemTextArea>
-                <NextLink href={item.url} rel="noopener noreferrer" target="_blank">詳細</NextLink>
+                <NextLink href={item.url} rel="noopener noreferrer" target="_blank">詳細ページ</NextLink>
+                <Slash>/</Slash>
+                <NextLink
+                  href={"http://maps.google.com/maps?q=" + item.latitude + "," + item.longitude}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  地図をみる
+                </NextLink>
                 {item.category && (<SubText>{item.category}</SubText>)}
-                {item.name && (<Title>{item.name}</Title>)} 
+                {item.name && (<Title>{item.name}</Title>)}
               </ItemTextArea>
             </Item>
         ))}
@@ -87,6 +99,15 @@ const GourmetIndex = () => {
 }
 
 // styled-components
+const GourNavisTitle = styled.h1`
+  display: block;
+  font-family: Julius Sans One, sans-serif;
+  text-align: center;
+  margin: 0 auto 50px;
+`;
+const Red = styled.span`
+  color: #dc143c;
+`;
 const GourNavis = styled.div`
   display: flex;
   justify-content: center;
@@ -99,6 +120,9 @@ const Item = styled.div`
   margin: 0 10px 40px;
   border: 1px solid #ccc;
   background: #fff;
+  ${media.lessThan("medium")`
+    width: 85%;
+  `}
 `;
 const Image = styled.img`
   display: block; 
@@ -120,7 +144,7 @@ const ItemTextArea = styled.div`
 const SubText = styled.div`
   font-size: 12px;
   line-height: 0.75em;
-  margin: 0 0 5px 0;
+  margin: 0 0 10px 0;
 `;
 const Title = styled.div`
   font-size: 18px;
@@ -128,11 +152,17 @@ const Title = styled.div`
   line-height: 1.25em;
 `;
 const NextLink = styled.a`
-  display: block;
-  font-size: 14px;
-  text-align: right;
-  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  text-decoration: underline;
   color: #ff7f50;
-  margin: 0 0 15px 0;
+  margin: 0 15px 30px 0;
 `;
-export default GourmetIndex;
+const Slash = styled.div`
+  display: inline-block;
+  font-size: 12px;
+  color: #ff7f50;
+  margin: 0 15px 30px 0;
+`;
+
+export default HyogoTake;
